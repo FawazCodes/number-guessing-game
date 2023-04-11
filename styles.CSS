@@ -1,0 +1,91 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  width: 90%;
+  max-width: 600px;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  text-align: center;
+  animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h1 {
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+.input-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+input {
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  flex: 1;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  margin-left: 1rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  flex: 1;
+}
+
+button:disabled {
+  background-color: #ccc;
+}
+
+#message {
+  margin-bottom: 1rem;
+}
+
+#guesses-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+
+@media (max-width: 500px) {
+  input, button {
+    flex: 100%;
+    margin: 0.5rem 0;
+  }
+}
