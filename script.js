@@ -1,5 +1,19 @@
+document.addEventListener("DOMContentLoaded", () => {
+  // Generate random gradient colors and set them as CSS variables
+  const color1 = getRandomColor();
+  const color2 = getRandomColor();
+  document.documentElement.style.setProperty("--color1", color1);
+  document.documentElement.style.setProperty("--color2", color2);
+});
+
+function getRandomColor() {
+  const randomColor = `hsl(${Math.random() * 360}, 50%, 50%)`;
+  return randomColor;
+}
+
 const guessInput = document.getElementById("guess");
 const submitBtn = document.getElementById("submit-btn");
+const resetBtn = document.getElementById("reset-btn");
 const message = document.getElementById("message");
 const guessesGrid = document.getElementById("guesses-grid");
 
@@ -17,18 +31,31 @@ submitBtn.addEventListener("click", () => {
   if (feedback === "+4") {
     message.textContent = "Congratulations! You've won the game!";
     submitBtn.disabled = true;
+    resetBtn.hidden = false;
   } else {
     attempts--;
 
     if (attempts === 0) {
       message.textContent = `Game over! The hidden number was ${hiddenNumber}.`;
       submitBtn.disabled = true;
+      resetBtn.hidden = false;
     } else {
-      addToGuessesGrid(guess, feedback);
+      message.textContent = `Remaining attempts: ${attempts}.`;
     }
+
+    addToGuessesGrid(guess, feedback);
   }
 
   guessInput.value = "";
+  submitBtn.disabled = true;
+});
+
+resetBtn.addEventListener("click", () => {
+  hiddenNumber = generateHiddenNumber();
+  attempts = 5;
+  message.textContent = "";
+  guessesGrid.innerHTML = "";
+  resetBtn.hidden = true;
   submitBtn.disabled = true;
 });
 
@@ -59,12 +86,20 @@ function compareGuess(hiddenNumber, guess) {
     }
   }
 
-  return `+${correctDigits}, -${misplacedDigits}`;
+  let feedback = "";
+  if (correctDigits > 0) {
+    feedback += `+${correctDigits}`;
+  }
+  if (misplacedDigits > 0) {
+    if (feedback) feedback += ", ";
+    feedback += `-${misplacedDigits}`;
+  }
+
+  return feedback;
 }
 
 function addToGuessesGrid(guess, feedback) {
   const guessElement = document.createElement("div");
   guessElement.textContent = `${guess} (${feedback})`;
   guessesGrid.appendChild(guessElement);
-  message.textContent = `Remaining attempts: ${attempts}.`;
 }
