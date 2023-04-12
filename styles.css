@@ -12,6 +12,7 @@ body {
   align-items: center;
   min-height: 100vh;
   flex-direction: column;
+  background-color: #f0f0f0;
 }
 
 .container {
@@ -48,12 +49,19 @@ h1 {
   flex-wrap: wrap;
 }
 
+.button-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
 input {
   padding: 0.5rem;
   font-size: 1.2rem;
   border: 1px solid #ccc;
   border-radius: 0.25rem;
   flex: 1;
+  transition: all 0.3s ease;
 }
 
 button {
@@ -65,28 +73,37 @@ button {
   margin-top: 1rem;
   cursor: pointer;
   flex: 1;
+  background-color: #007BFF;
+  transition: all 0.3s ease;
 }
 
 button:disabled {
-  background-color: #ccc;
+  background-color: #6c757d;
+  cursor: not-allowed;
 }
 
-button:not(:disabled) {
-  color: #000;
+button:not(:disabled):hover {
+  opacity: 0.9;
+}
+
+#reset-btn {
+  background-color: #dc3545;
 }
 
 #message {
-  margin-bottom: 1rem;
+  margin: 1rem 0;
+  font-size: 1.2rem;
 }
 
 #guesses-grid {
   display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 }
 
 .footer {
   margin-top: 1rem;
+  font-size: 0.9rem;
 }
 
 @media (max-width: 500px) {
