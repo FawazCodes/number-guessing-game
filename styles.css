@@ -6,12 +6,12 @@
 }
 
 body {
-  font-family: 'Arial', sans-serif;
-  background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+  font-family: 'Raleway', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  flex-direction: column;
 }
 
 .container {
@@ -59,11 +59,9 @@ input {
 button {
   padding: 0.5rem 1rem;
   font-size: 1.2rem;
-  background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
   color: white;
   border: none;
   border-radius: 0.25rem;
-  margin-left: 1rem;
   margin-top: 1rem;
   cursor: pointer;
   flex: 1;
@@ -71,6 +69,10 @@ button {
 
 button:disabled {
   background-color: #ccc;
+}
+
+button:not(:disabled) {
+  color: #000;
 }
 
 #message {
@@ -83,9 +85,25 @@ button:disabled {
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 }
 
+.footer {
+  margin-top: 1rem;
+}
+
 @media (max-width: 500px) {
   input, button {
     flex: 100%;
     margin: 0.5rem 0;
   }
+}
+
+/* Add styles for the random gradient background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image: linear-gradient(135deg, var(--color1), var(--color2));
 }
