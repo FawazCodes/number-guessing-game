@@ -9,19 +9,22 @@
 </head>
 <body>
   <div class="container">
-    <h1>Number Guessing Game</h1>
+    <h1 data-en="Number Guessing Game" data-ar="لعبة تخمين الأرقام"></h1>
     <div class="input-container">
-      <input type="text" id="guess" maxlength="4" placeholder="Enter your guess">
+      <input type="text" id="guess" maxlength="4" data-en="Enter your guess" data-ar="أدخل تخمينك">
     </div>
     <div class="button-container">
-      <button id="submit-btn" disabled>Submit</button>
-      <button id="reset-btn" hidden>Reset Game</button>
+      <button id="submit-btn" disabled data-en="Submit" data-ar="إرسال"></button>
+      <button id="reset-btn" hidden data-en="Reset Game" data-ar="إعادة تعيين"></button>
     </div>
-    <div id="message"></div>
+    <div id="message" data-en="Remaining attempts: " data-ar="المحاولات المتبقية: "></div>
     <div id="guesses-grid"></div>
+    <div class="language-switch">
+      <button id="language-btn" data-en="عربى" data-ar="English"></button>
+    </div>
   </div>
   <div class="footer">
-    <p>Made with HATE by Fawaz</p>
+    <p data-en="Made with HATE by Fawaz" data-ar="صنع بكراهية من قبل فواز"></p>
   </div>
   <script src="script.js"></script>
 </body>
