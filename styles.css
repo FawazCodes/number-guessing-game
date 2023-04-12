@@ -124,3 +124,11 @@ body {
   background-image: linear-gradient(135deg, var(--color1), var(--color2));
 }
 
+.language-switch {
+  margin-top: 1rem;
+}
+
+#language-btn {
+  background-color: transparent;
+  color: #007BFF;
+}
