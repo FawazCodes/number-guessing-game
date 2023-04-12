@@ -16,6 +16,34 @@ const submitBtn = document.getElementById("submit-btn");
 const resetBtn = document.getElementById("reset-btn");
 const message = document.getElementById("message");
 const guessesGrid = document.getElementById("guesses-grid");
+const languageBtn = document.getElementById("language-btn");
+const textElements = document.querySelectorAll("[data-en], [data-ar]");
+
+let currentLanguage = "en";
+
+languageBtn.addEventListener("click", () => {
+  currentLanguage = currentLanguage === "en" ? "ar" : "en";
+  updateLanguage();
+});
+
+function updateLanguage() {
+  textElements.forEach((element) => {
+    const text = element.getAttribute(`data-${currentLanguage}`);
+    if (element.tagName === "INPUT") {
+      element.placeholder = text;
+    } else {
+      element.textContent = text;
+    }
+  });
+
+  if (currentLanguage === "ar") {
+    document.body.setAttribute("dir", "rtl");
+  } else {
+    document.body.removeAttribute("dir");
+  }
+}
+
+updateLanguage();
 
 let hiddenNumber = generateHiddenNumber();
 let attempts = 5;
