@@ -1,134 +1,661 @@
-/* Reset */
-* {
+/* Ensure hidden elements are not displayed */
+[hidden] {
+  display: none !important;
+}
+
+/* ==================================
+   CSS Variables & Theme Settings
+================================== */
+:root {
+  /* Light theme */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --accent-primary: #3b82f6;
+  --accent-secondary: #60a5fa;
+  --success: #22c55e;
+  --error: #ef4444;
+  --border: rgba(203, 213, 225, 0.4);
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+  --transition-speed: 0.3s;
+  /* Dark theme overrides */
+  --dark-bg-primary: #0f172a;
+  --dark-bg-secondary: #1e293b;
+  --dark-text-primary: #f1f5f9;
+  --dark-text-secondary: #94a3b8;
+  --dark-accent-primary: #60a5fa;
+  --dark-accent-secondary: #93c5fd;
+  --dark-glass-bg: rgba(15, 23, 42, 0.85);
+  --dark-glass-border: rgba(255, 255, 255, 0.15);
+  --dark-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --dark-shadow-lg: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* ==================================
+   Global Reset & Base Styles
+================================== */
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
+  min-height: 100vh;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  position: relative;
+  transition: background-color var(--transition-speed),
+    color var(--transition-speed);
+}
+body.dark-mode {
+  background: var(--dark-bg-primary);
+  color: var(--dark-text-primary);
+}
+
+/* ==================================
+   Animated Background
+================================== */
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -2;
+  overflow: hidden;
+}
+.gradient-sphere {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.5;
+  animation: float 20s infinite;
+}
+.gradient-sphere:nth-child(1) {
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+  top: -100px;
+  left: -100px;
+  animation-delay: -5s;
+}
+.gradient-sphere:nth-child(2) {
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(135deg, var(--success), #16a34a);
+  bottom: -50px;
+  right: -50px;
+  animation-delay: -10s;
+}
+.gradient-sphere:nth-child(3) {
+  width: 250px;
+  height: 250px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: -15s;
+}
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(50px, 50px) rotate(90deg);
+  }
+  50% {
+    transform: translate(0, 100px) rotate(180deg);
+  }
+  75% {
+    transform: translate(-50px, 50px) rotate(270deg);
+  }
+}
+
+/* ==================================
+   Capsule Styling (Section Containers)
+================================== */
+.capsule {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ==================================
+   Glass Container (Main Wrapper)
+================================== */
+.glass-container {
+  padding: 1rem;
+  width: 95%;
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+/* ==================================
+   Header & Controls
+================================== */
+.capsule-header {
+  text-align: center;
+}
+.controls-top {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+.icon-btn {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color var(--transition-speed),
+    transform var(--transition-speed);
+}
+.icon-btn:hover,
+.icon-btn:focus {
+  background-color: var(--bg-secondary);
+  transform: scale(1.1);
+  outline: none;
+}
+.icon-btn.fade-out {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.icon-btn.fade-in {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+.icon-btn svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* Title */
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.title-decoration {
+  color: var(--accent-primary);
+  animation: spin 10s linear infinite;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* Difficulty Bar */
+.difficulty-bar {
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  flex-direction: column;
-  background-color: #f0f0f0;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+}
+.difficulty-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: none;
+  color: var(--text-secondary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.difficulty-btn.active {
+  background: var(--accent-primary);
+  color: #fff;
+  transform: scale(1.05);
 }
 
-.container {
-  width: 90%;
-  max-width: 600px;
-  padding: 2rem;
-  background-color: white;
-  border-radius: 1rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+/* ==================================
+   Game Status & Stats
+================================== */
+.game-status {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.status-item {
   text-align: center;
-  animation: fadeIn 1s ease-in;
+}
+.status-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+.status-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
-@keyframes fadeIn {
+/* ==================================
+   Custom Digit Input Section
+================================== */
+.digit-input-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.digit-inputs {
+  display: flex;
+  gap: 0.5rem;
+}
+.digit-input {
+  width: 3rem;
+  height: 3rem;
+  font-size: 2rem;
+  text-align: center;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.digit-input:focus {
+  border-color: var(--accent-primary);
+  transform: scale(1.05);
+  outline: none;
+}
+.clear-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--error);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.clear-btn:hover {
+  transform: scale(1.2);
+}
+.input-feedback {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+/* ==================================
+   Primary Button
+================================== */
+.primary-btn {
+  padding: 0.75rem 1.5rem;
+  background: var(--accent-primary);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+.primary-btn:disabled {
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  cursor: not-allowed;
+}
+.primary-btn:not(:disabled):hover,
+.primary-btn:not(:disabled):focus {
+  background-color: var(--accent-secondary);
+  transform: scale(1.05);
+}
+.primary-btn.clicked {
+  animation: buttonClick 0.15s ease-out;
+}
+@keyframes buttonClick {
   0% {
-    opacity: 0;
-    transform: translateY(20px);
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
   }
   100% {
+    transform: scale(1);
+  }
+}
+
+/* ==================================
+   Guess History & Row Animations
+================================== */
+.capsule-history {
+  margin-top: 1rem;
+}
+.history-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+.history-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+.guess-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  animation: guessIn 0.4s ease-out;
+}
+@keyframes guessIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
-
-h1 {
-  margin-bottom: 1.5rem;
-  font-size: 2rem;
+.digit-box {
+  padding: 0.75rem;
+  text-align: center;
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
-
-.input-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
+.digit-box.correct {
+  background: var(--success);
+  color: #fff;
+  animation: pulse 0.5s ease-out;
 }
-
-.button-container {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
-
-input {
-  padding: 0.5rem;
-  font-size: 1.2rem;
-  border: 1px solid #ccc;
-  border-radius: 0.25rem;
-  flex: 1;
-  transition: all 0.3s ease;
+.digit-box.misplaced {
+  background: #f59e0b;
+  color: #fff;
+  animation: shake 0.4s ease;
 }
-
-button {
-  padding: 0.5rem 1rem;
-  font-size: 1.2rem;
-  color: white;
-  border: none;
-  border-radius: 0.25rem;
-  margin-top: 1rem;
-  cursor: pointer;
-  flex: 1;
-  background-color: #007BFF;
-  transition: all 0.3s ease;
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+  75% {
+    transform: translateX(-4px);
+  }
 }
-
-button:disabled {
-  background-color: #6c757d;
-  cursor: not-allowed;
+.digit-box.incorrect {
+  background: var(--error);
+  color: #fff;
+  animation: fadeBlink 0.6s ease;
 }
-
-button:not(:disabled):hover {
-  opacity: 0.9;
-}
-
-#reset-btn {
-  background-color: #dc3545;
-}
-
-#message {
-  margin: 1rem 0;
-  font-size: 1.2rem;
-}
-
-#guesses-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 1rem;
-}
-
-.footer {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-}
-
-@media (max-width: 500px) {
-  input, button {
-    flex: 100%;
-    margin: 0.5rem 0;
+@keyframes fadeBlink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
   }
 }
 
-/* Add styles for the random gradient background */
-body {
-  font-family: 'Raleway', sans-serif;
+/* ==================================
+   Game Overlay (Results)
+================================== */
+.game-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  justify-content: center;
+  z-index: 20;
+}
+.result-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  display: flex;
   flex-direction: column;
-  background-image: linear-gradient(135deg, var(--color1), var(--color2));
+  gap: 1.5rem;
+  width: 90%;
+  max-width: 400px;
+  animation: fadeIn 0.3s ease-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.result-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.result-title {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.result-title.shake {
+  animation: cardShake 0.5s;
+}
+@keyframes cardShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-8px);
+  }
+  50% {
+    transform: translateX(8px);
+  }
+  75% {
+    transform: translateX(-8px);
+  }
+}
+.result-subtitle {
+  color: var(--text-secondary);
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.stat-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
 }
 
-.language-switch {
-  margin-top: 1rem;
+/* ==================================
+   Tutorial / Instructions Overlay
+================================== */
+.tutorial-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+  padding: 1rem;
+}
+.tutorial-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 2rem;
+  text-align: left;
+  box-shadow: var(--shadow-lg);
+  max-width: 500px;
+  width: 100%;
+  animation: fadeIn 0.3s ease-out;
+}
+.tutorial-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.tutorial-list {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
 }
 
-#language-btn {
-  background-color: transparent;
-  color: #007BFF;
+/* ==================================
+   Footer Styling
+================================== */
+.site-footer {
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* ==================================
+   Confetti (Win Animation)
+================================== */
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 25;
+}
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--accent-primary);
+  opacity: 0.8;
+  animation: confettiFall 2s linear infinite;
+}
+@keyframes confettiFall {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* ==================================
+   Alignment Adjustments for RTL/LTR
+================================== */
+body[dir="rtl"] .glass-container,
+body[dir="rtl"] .game-header,
+body[dir="rtl"] .game-content {
+  text-align: right;
+}
+body[dir="ltr"] .glass-container,
+body[dir="ltr"] .game-header,
+body[dir="ltr"] .game-content {
+  text-align: left;
+}
+
+/* ==================================
+   Mobile Responsiveness & Touch Targets
+================================== */
+@media (max-width: 576px) {
+  .capsule {
+    padding: 1rem;
+    margin: 0.5rem 0;
+  }
+  .title {
+    font-size: 2rem;
+  }
+  .game-status {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .status-value {
+    font-size: 1.75rem;
+  }
+  .digit-input {
+    font-size: 1.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .clear-btn {
+    font-size: 1.75rem;
+  }
+  .primary-btn {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+  .history-title {
+    font-size: 1.125rem;
+  }
+  .digit-box {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+  .result-title {
+    font-size: 1.75rem;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
