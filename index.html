@@ -1,31 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap" rel="stylesheet">
-  <title>Number Guessing Game</title>
-</head>
-<body>
-  <div class="container">
-    <h1 data-en="Number Guessing Game" data-ar="لعبة تخمين الأرقام"></h1>
-    <div class="input-container">
-      <input type="text" id="guess" maxlength="4" data-en="Enter your guess" data-ar="أدخل تخمينك">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <meta
+      name="description"
+      content="Guess Master: Award-winning modern interactive number guessing game"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Using Space Grotesk for a modern look -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Guess Master | Award-winning Number Game</title>
+  </head>
+  <body>
+    <!-- Animated background with gradient spheres -->
+    <div class="background">
+      <div class="gradient-sphere"></div>
+      <div class="gradient-sphere"></div>
+      <div class="gradient-sphere"></div>
     </div>
-    <div class="button-container">
-      <button id="submit-btn" disabled data-en="Submit" data-ar="إرسال"></button>
-      <button id="reset-btn" hidden data-en="Reset Game" data-ar="إعادة تعيين"></button>
+
+    <!-- Main container -->
+    <div class="glass-container" role="main">
+      <!-- Header Capsule -->
+      <section class="capsule capsule-header">
+        <div class="controls-top">
+          <button id="theme-btn" class="icon-btn" aria-label="Toggle Theme">
+            <svg class="theme-icon" viewBox="0 0 24 24">
+              <path class="sun-icon" d="M12 3v2M12 19v2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M3 12h2M19 12h2M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4" />
+              <circle cx="12" cy="12" r="4" />
+            </svg>
+          </button>
+          <button
+            id="language-btn"
+            class="icon-btn"
+            aria-label="Switch Language"
+            data-en="عربى"
+            data-ar="English"
+          ></button>
+          <button id="volume-btn" class="icon-btn" aria-label="Toggle Sound">
+            <svg class="volume-icon" viewBox="0 0 24 24">
+              <path d="M5 9v6h4l5 5V4l-5 5H5z" />
+            </svg>
+          </button>
+          <button id="help-btn" class="icon-btn" aria-label="Game Instructions">
+            <svg class="help-icon" viewBox="0 0 24 24">
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="2"
+                fill="none"
+              />
+              <path
+                d="M12 16v.01"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M12 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"
+                stroke="currentColor"
+                stroke-width="2"
+                fill="none"
+              />
+            </svg>
+          </button>
+        </div>
+        <h1 class="title">
+          <span class="title-decoration">✧</span>
+          <span
+            class="title-text"
+            data-en="Guess Master"
+            data-ar="سيد التخمين"
+          ></span>
+          <span class="title-decoration">✧</span>
+        </h1>
+        <div class="difficulty-bar">
+          <button
+            class="difficulty-btn"
+            data-difficulty="easy"
+            data-en="Easy"
+            data-ar="سهل"
+            title="محاولات غير محدودة"
+          ></button>
+          <button
+            class="difficulty-btn active"
+            data-difficulty="medium"
+            data-en="Medium"
+            data-ar="متوسط"
+            title="5 محاولات"
+          ></button>
+          <button
+            class="difficulty-btn"
+            data-difficulty="hard"
+            data-en="Hard"
+            data-ar="صعب"
+            title="3 محاولات"
+          ></button>
+        </div>
+      </section>
+
+      <!-- Main Capsule: Status & Input -->
+      <section class="capsule capsule-main">
+        <div class="game-status">
+          <div class="status-item">
+            <div class="status-label" data-en="Attempts" data-ar="المحاولات"></div>
+            <div class="status-value attempts-counter">5</div>
+          </div>
+          <div class="status-item">
+            <div class="status-label" data-en="Time" data-ar="الوقت"></div>
+            <div class="status-value" id="timer">0:00</div>
+          </div>
+          <div class="status-item">
+            <div class="status-label" data-en="Win Rate" data-ar="معدل الفوز"></div>
+            <div class="status-value" id="win-rate">0%</div>
+          </div>
+        </div>
+
+        <div class="digit-input-container">
+          <div class="digit-inputs">
+            <input
+              type="text"
+              maxlength="1"
+              class="digit-input"
+              id="digit-1"
+              autocomplete="off"
+              inputmode="numeric"
+              aria-label="Digit 1"
+            />
+            <input
+              type="text"
+              maxlength="1"
+              class="digit-input"
+              id="digit-2"
+              autocomplete="off"
+              inputmode="numeric"
+              aria-label="Digit 2"
+            />
+            <input
+              type="text"
+              maxlength="1"
+              class="digit-input"
+              id="digit-3"
+              autocomplete="off"
+              inputmode="numeric"
+              aria-label="Digit 3"
+            />
+            <input
+              type="text"
+              maxlength="1"
+              class="digit-input"
+              id="digit-4"
+              autocomplete="off"
+              inputmode="numeric"
+              aria-label="Digit 4"
+            />
+          </div>
+          <button id="clear-input" class="clear-btn" aria-label="Clear Input">
+            &times;
+          </button>
+        </div>
+        <div
+          class="input-feedback"
+          id="input-feedback"
+          data-en="Enter 4 digits"
+          data-ar="أدخل 4 أرقام"
+        ></div>
+        <button
+          id="submit-btn"
+          class="primary-btn"
+          disabled
+          data-en="Check"
+          data-ar="تحقق"
+        >
+          <span class="btn-text" data-en="Check" data-ar="تحقق"></span>
+          <svg class="btn-icon" viewBox="0 0 24 24">
+            <path d="M20 12h-9.5m7.5 3l3-3-3-3" />
+          </svg>
+        </button>
+      </section>
+
+      <!-- Guess History Capsule -->
+      <section class="capsule capsule-history">
+        <div class="history-title" data-en="Previous Guesses" data-ar="التخمينات السابقة"></div>
+        <div id="guesses-grid" class="history-grid"></div>
+      </section>
+
+      <!-- Game Result Overlay -->
+      <div class="game-overlay" hidden>
+        <div class="result-card">
+          <div class="result-header">
+            <h2 class="result-title" data-en="Game Over" data-ar="اللعبة انتهت"></h2>
+            <div class="result-subtitle" id="result-message"></div>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-value" id="stat-time">0:00</div>
+              <div class="stat-label" data-en="Time" data-ar="الوقت"></div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="stat-attempts">0</div>
+              <div class="stat-label" data-en="Attempts" data-ar="المحاولات"></div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value" id="stat-accuracy">0%</div>
+              <div class="stat-label" data-en="Accuracy" data-ar="الدقة"></div>
+            </div>
+          </div>
+          <button id="reset-btn" class="primary-btn" data-en="Play Again" data-ar="العب مجددًا">
+            <span class="btn-text" data-en="Play Again" data-ar="العب مجددًا"></span>
+            <svg class="btn-icon" viewBox="0 0 24 24">
+              <path d="M3 12a9 9 0 1 1 9 9M3 12h9" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tutorial / Instructions Overlay -->
+      <div class="tutorial-overlay" hidden>
+        <div class="tutorial-card">
+          <h2 class="tutorial-title" data-en="How to Play" data-ar="كيفية اللعب"></h2>
+          <ul class="tutorial-list">
+            <li
+              data-en="Enter a 4-digit code using the individual boxes."
+              data-ar="أدخل رمزًا مكونًا من 4 أرقام مميزة عبر الصناديق المنفصلة."
+            ></li>
+            <li
+              data-en="Click 'Check' to submit your guess."
+              data-ar="اضغط على زر 'تحقق' لإرسال تخمينك."
+            ></li>
+            <li
+              data-en="Feedback: '+' means correct digit and position; '-' means correct digit but wrong position."
+              data-ar="الإشارات: '+' تعني الرقم صحيح وفي المكان الصحيح، و'-' تعني الرقم صحيح لكن في المكان الخاطئ."
+            ></li>
+            <li
+              data-en="Difficulty changes the number of attempts: Easy = unlimited, Medium = 5, Hard = 3."
+              data-ar="يؤثر مستوى الصعوبة على عدد المحاولات: سهل = غير محدود، متوسط = 5، صعب = 3."
+            ></li>
+            <li
+              data-en="Use the top controls to change theme, language, or mute sound."
+              data-ar="استخدم أدوات الشريط العلوي لتغيير المظهر، اللغة، أو كتم الصوت."
+            ></li>
+          </ul>
+          <button
+            id="tutorial-close-btn"
+            class="primary-btn"
+            data-en="Got it"
+            data-ar="حسنًا"
+          ></button>
+        </div>
+      </div>
     </div>
-    <div id="message" data-en="Remaining attempts: " data-ar="المحاولات المتبقية: "></div>
-    <div id="guesses-grid"></div>
-    <div class="language-switch">
-      <button id="language-btn" data-en="عربى" data-ar="English"></button>
-    </div>
-  </div>
-  <div class="footer">
-    <p data-en="Made with HATE by Fawaz" data-ar="صنع بكراهية من قبل فواز"></p>
-  </div>
-  <script src="script.js"></script>
-</body>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <p data-en="Made with HATE by Fawaz" data-ar="صنع بكره بواسطة فواز"></p>
+    </footer>
+
+    <!-- Confetti container (used on win) -->
+    <div id="confetti-container" class="confetti-container" hidden></div>
+
+    <!-- Audio elements for sound effects (replace with your own files) -->
+    <audio id="sound-success" src="sounds/success.mp3" preload="auto"></audio>
+    <audio id="sound-error" src="sounds/error.mp3" preload="auto"></audio>
+    <script src="script.js" type="module"></script>
+  </body>
 </html>
